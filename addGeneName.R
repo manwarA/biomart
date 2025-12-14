@@ -11,8 +11,9 @@ addGeneName <- function(objK,
                         gene_name_col = NULL) {
    
   require("biomaRt") # or library(biomaRt)
+  require("stringr")
   
-  # check whether mart object has alredy been created; no need to recreat this object. 
+  # check whether mart object has alreday been created; no need to recreate this object. 
   # TODO option to select the mart varient; currently only human gene ensembl is supported
     if(! exists("martObj", environment())){
         mart = useEnsembl("ensembl","hsapiens_gene_ensembl")
@@ -31,6 +32,7 @@ addGeneName <- function(objK,
     print(head(objK))
     # remove "." from the ensemble gene ids, TCGA ensembl genes are coded with their version, that are difficult to convert. 
     # the version should be remove
+    # TODO: just gsub() to delete the varient number, instead of using stringi library.
 
     objK[["genes"]] = ifelse(stringr::str_detect(objK[["genes"]], "\\.") == TRUE,
                        stringr::str_split_i(objK[["genes"]], pattern = "\\.", 1),
