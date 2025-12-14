@@ -32,8 +32,10 @@ addGeneName <- function(objK,
     print(head(objK))
     # remove "." from the ensemble gene ids, TCGA ensembl genes are coded with their version, that are difficult to convert. 
     # the version should be remove
-    # TODO: just gsub() to delete the varient number, instead of using stringi library.
-
+    
+  # TODO: just gsub() to delete the varient number, instead of using stringi library.
+    # string split or you can remove the remaining part from ENSEMBL name, the version of ensembl id such as ENSG0000000000012.3. Remove .3, otherwise megeing will be difficult.
+    #    rownames(df) <- sub("\\..*", "", rownames(df)) # gsub()
     objK[["genes"]] = ifelse(stringr::str_detect(objK[["genes"]], "\\.") == TRUE,
                        stringr::str_split_i(objK[["genes"]], pattern = "\\.", 1),
                       objK[["genes"]])
